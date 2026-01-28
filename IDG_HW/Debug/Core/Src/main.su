@@ -1,0 +1,7 @@
+../Drivers/CMSIS/Include/core_cm4.h:1684:22:__NVIC_EnableIRQ	16	static,ignoring_inline_asm
+../Core/Src/main.c:50:5:main	8	static
+../Core/Src/main.c:141:6:u_ButtonInit	4	static
+../Core/Src/main.c:154:6:u_EXTI0_Init	8	static
+../Core/Src/main.c:175:6:EXTI0_IRQHandler	4	static
+../Core/Src/main.c:181:6:delay	24	static
+../Core/Src/main.c:192:6:Error_Handler	4	static,ignoring_inline_asm
