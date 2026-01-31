@@ -1,0 +1,15 @@
+../Core/Src/main.c:96:6:HAL_UART_TransmitString	1
+../Core/Src/main.c:101:6:HandleUART	7
+../Core/Src/main.c:132:6:HandleButton	3
+../Core/Src/main.c:148:6:PollPotentiometer	7
+../Core/Src/main.c:194:5:main	1
+../Core/Src/main.c:251:6:SystemClock_Config	3
+../Core/Src/main.c:293:13:MX_ADC1_Init	3
+../Core/Src/main.c:345:13:MX_TIM2_Init	6
+../Core/Src/main.c:404:13:MX_USART2_UART_Init	2
+../Core/Src/main.c:437:13:MX_GPIO_Init	1
+../Core/Src/main.c:466:6:HAL_UART_RxCpltCallback	5
+../Core/Src/main.c:489:6:HAL_ADC_ConvCpltCallback	2
+../Core/Src/main.c:501:6:HAL_GPIO_EXTI_Callback	3
+../Core/Src/main.c:516:6:LED_UpdateBrightness	3
+../Core/Src/main.c:533:6:Error_Handler	1

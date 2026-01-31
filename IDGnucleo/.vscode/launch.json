@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/jsj/STM32CubeIDE/workspace_1.19.0/IDGnucleo/Core/Src",
+      "program": "/Users/jsj/STM32CubeIDE/workspace_1.19.0/IDGnucleo/Core/Src/build/Debug/outDebug"
+    }
+  ]
+}
