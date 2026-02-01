@@ -6,9 +6,11 @@
  */
 
 #include "u_Main.h"
+#include "u_UART.h"
 
-unsigned char userInput=0;
-extern volatile char uartEvent;
+char rxBuf[RX_BUF_SIZE];
+volatile uint8_t rxIndex = 0;
+volatile uint8_t uartRxEvent = 0;
 
 /*FUNCTION**********************************************************************
  *
@@ -97,12 +99,23 @@ void put_char(int ch) {
  * Return value: NONE
  *END**************************************************************************/
 void USART2_IRQHandler (void) {
+   
+  rxBuf[rxIndex] = USART2->DR;  
+  char rxByte = rxBuf[rxIndex];// current received byte
 
-  uartEvent =1; // signal to main loop
-  userInput = USART2->DR;
-  //read contents from USART2 data register and transmit it back
-  put_char(USART2->DR);
-
+	if (rxByte == '\r' || rxByte == '\n')
+	{
+	    rxBuf[rxIndex] = '\0';  // terminate string
+	    uartRxEvent = 1;        // signal main loop
+	    rxIndex = 0;            // reset buffer index
+	}
+	else
+	{
+	    if (rxIndex < RX_BUF_SIZE - 1)
+	    {
+	        rxIndex++;
+	    }
+	}
 }
 
 /*FUNCTION**********************************************************************

@@ -8,7 +8,11 @@
 #ifndef INC_U_UART_H_
 #define INC_U_UART_H_
 
-extern unsigned char userInput;
+#define RX_BUF_SIZE 4
+
+extern char rxBuf[RX_BUF_SIZE];
+extern volatile uint8_t rxIndex;
+extern volatile uint8_t uartRxEvent;
 
 void InitUART(void);
 void put_char(int ch);
