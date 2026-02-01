@@ -60,8 +60,8 @@ all: main-build
 main-build: IDG_HW.elf secondary-outputs
 
 # Tool invocations
-IDG_HW.elf IDG_HW.map: $(OBJS) $(USER_OBJS) /Users/jsj/Downloads/ESD_5613_LAB-main/Gowda_lab_4/stm32_code/UART_PWM/STM32F411VETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "IDG_HW.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/jsj/Downloads/ESD_5613_LAB-main/Gowda_lab_4/stm32_code/UART_PWM/STM32F411VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="IDG_HW.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+IDG_HW.elf IDG_HW.map: $(OBJS) $(USER_OBJS) /Users/jsj/IDG_HW/IDG_HW/STM32F411VETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "IDG_HW.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/Users/jsj/IDG_HW/IDG_HW/STM32F411VETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="IDG_HW.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
