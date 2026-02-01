@@ -13,6 +13,24 @@
 
 unsigned char dutyCycle = 0;
 
+/*FUNCTION**********************************************************************
+ *
+ * Function Name : InitPWM
+ * Description   : Initializes TIM4 Channel 4 to generate a PWM signal
+ *                 for LED brightness control. Configures GPIO PD15
+ *                 in alternate function mode and sets up timer
+ *                 parameters for PWM operation.
+ *
+ * Parameters    : NONE
+ * Return value  : NONE
+ *
+ * Notes         :
+ *  - PWM output is generated on PD15 (TIM4_CH4)
+ *  - Timer runs without prescaler
+ *  - Auto-reload register defines PWM frequency
+ *  - Duty cycle is controlled via TIM4->CCR4
+ *
+ *END**************************************************************************/
 void InitPWM(void){
 
 	// Enable clocks for GPIOD and TIMER-4

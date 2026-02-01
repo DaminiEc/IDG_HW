@@ -14,6 +14,21 @@
 volatile uint16_t adcValue = 0;
 extern volatile char adcEvent;
 
+/*FUNCTION**********************************************************************
+ *
+ * Function Name : InitADC
+ * Description   : Initializes ADC1 to read analog input from PA1.
+ *                 Configures GPIO in analog mode, sets ADC clock,
+ *                 enables end-of-conversion interrupt, and prepares
+ *                 ADC for conversion.
+ *
+ * Parameters    : NONE
+ * Return value  : NONE
+ *
+ * Notes         : ADC operates in interrupt mode. Converted value
+ *                 is stored in adcValue by ADC_IRQHandler.
+ *
+ *END**************************************************************************/
 void InitADC(void)
 {
     /* 1. Enable clocks */
@@ -43,11 +58,37 @@ void InitADC(void)
     NVIC_EnableIRQ(ADC_IRQn);
 }
 
+/*FUNCTION**********************************************************************
+ *
+ * Function Name : ADC_StartConversion
+ * Description   : Starts ADC1 conversion by software trigger.
+ *
+ * Parameters    : NONE
+ * Return value  : NONE
+ *
+ * Notes         : ADC must be initialized and enabled before calling
+ *                 this function.
+ *
+ *END**************************************************************************/
 void ADC_StartConversion(void)
 {
     ADC1->CR2 |= ADC_CR2_SWSTART;
 }
 
+
+/*FUNCTION**********************************************************************
+ *
+ * Function Name : ADC_IRQHandler
+ * Description   : Handles ADC end-of-conversion interrupt.
+ *                 Reads converted ADC value from data register
+ *                 and signals main loop that new data is available.
+ *
+ * Parameters    : NONE
+ * Return value  : NONE
+ *
+ * Notes         : Reading ADC1->DR clears the EOC flag automatically.
+ *
+ *END**************************************************************************/
 void ADC_IRQHandler(void)
 {
     adcEvent =1;

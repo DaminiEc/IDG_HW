@@ -50,6 +50,18 @@ void u_ButtonInit(void);
 void u_EXTI0_Init(void);
 void delay(int usecs);
 
+/**
+ * @brief Handles UART input commands.
+ *
+ * This function processes user input received over UART.
+ * Supported commands include:
+ *  - Turning LED ON or OFF
+ *  - Setting LED brightness (0–100%)
+ *
+ * UART input has the highest priority among all input sources.
+ *
+ * @retval None
+ */
 void HandleUART(void)
 {
 	if (uartRxEvent)
@@ -81,6 +93,18 @@ void HandleUART(void)
 	}
 }
 
+
+/**
+ * @brief Handles user button press events.
+ *
+ * This function is triggered when a button event is detected.
+ * It toggles the LED state and updates the target brightness
+ * accordingly.
+ *
+ * Button input has higher priority than potentiometer input.
+ *
+ * @retval None
+ */
 void HandleButton(void)
 {
 	if (buttonEvent)
@@ -97,16 +121,18 @@ void HandleButton(void)
 	}
 }
 
-void LED_UpdateBrightness(void)
-{
-	if (currentBrightness < targetBrightness)
-		currentBrightness++;
-	else if (currentBrightness > targetBrightness)
-		currentBrightness--;
-
-	TIM4->CCR4 = currentBrightness / 100; // update PWM Duty cycle scaled to 100
-}
-
+/**
+ * @brief Polls the potentiometer (ADC) and updates target brightness.
+ *
+ * This function reads the ADC value corresponding to the potentiometer,
+ * applies a deadband filter to avoid noise-triggered updates,
+ * and maps the ADC value to predefined brightness levels.
+ *
+ * Potentiometer input is ignored if UART or Button was the
+ * most recent input source.
+ *
+ * @retval None
+ */
 void PollPotentiometer(void)
 {
 	uint32_t adcRaw;
@@ -144,6 +170,26 @@ void PollPotentiometer(void)
 
 		ADC1->CR2 &= ~ADC_CR2_SWSTART;
 	}
+}
+
+/**
+ * @brief Smoothly updates LED brightness using PWM.
+ *
+ * This function performs gradual ramp-up or ramp-down of the
+ * LED brightness by incrementing or decrementing the current
+ * PWM duty cycle until it reaches the target brightness.
+ *
+ * @retval None
+ */
+void LED_UpdateBrightness(void)
+{
+	if (currentBrightness < targetBrightness)
+		currentBrightness++;
+	else if (currentBrightness > targetBrightness)
+		currentBrightness--;
+
+	TIM4->CCR4 = (currentBrightness * TIM4->ARR) / 100;
+// update PWM Duty cycle scaled to 100
 }
 
 int main(void)
@@ -223,6 +269,17 @@ void EXTI0_IRQHandler(void){
 	EXTI->PR |= (1<<0); // Clear PR to re-enable EXTI interrupt
 }
 
+
+/**
+ * @brief Blocking delay routine.
+ *
+ * Generates an approximate delay in microseconds using
+ * a simple software loop.
+ *
+ * @param usecs Number of microseconds to delay
+ *
+ * @retval None
+ */
 void delay(int usecs){
 	int count = (usecs * 48) / 4;
 	for (int i = 0; i < count; ++i){
